@@ -25,6 +25,8 @@ VMWARE_VLAN_INTERFACE=vmnic0
 
 COMPUTE_HOSTS="192.168.206.146"
 KEYSTONE_REGION="region01"
+SERVICE_PASSWORD="0477c6168f474238"
+
 
 dt=`date '+%Y%m%d-%H%M%S'`
 logfile="install_$dt.log"
@@ -71,6 +73,12 @@ function install_openstack() {
     modify_answerfile CONFIG_CEILOMETER_INSTALL n
     modify_answerfile CONFIG_HEAT_INSTALL y
 
+    modify_answerfile CONFIG_NOVA_KS_PW $SERVICE_PASSWORD
+    modify_answerfile CONFIG_NEUTRON_KS_PW $SERVICE_PASSWORD
+    modify_answerfile CONFIG_HEAT_KS_PW $SERVICE_PASSWORD
+    modify_answerfile CONFIG_GLANCE_KS_PW $SERVICE_PASSWORD
+    modify_answerfile CONFIG_CINDER_KS_PW $SERVICE_PASSWORD
+    
     modify_answerfile CONFIG_KEYSTONE_REGION $KEYSTONE_REGION
 
     if [ -n $COMPUTE_HOSTS ]; then

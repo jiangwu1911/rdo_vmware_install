@@ -1,9 +1,6 @@
 #!/bin/bash
 
-# This script should be run on the new region server
-
-REGION=RegionTwo
-KEYSTONE_SERVER_IP=192.168.1.116
+KEYSTONE_SERVER_IP=192.168.206.151
 
 function modify_config_file() {
     openstack-config --set /etc/nova/nova.conf keystone_authtoken auth_uri http://${KEYSTONE_SERVER_IP}:5000/
