@@ -24,6 +24,7 @@ VLAN_NUM=10
 VMWARE_VLAN_INTERFACE=vmnic0
 
 COMPUTE_HOSTS="192.168.206.146"
+KEYSTONE_REGION="region01"
 
 dt=`date '+%Y%m%d-%H%M%S'`
 logfile="install_$dt.log"
@@ -69,6 +70,8 @@ function install_openstack() {
     modify_answerfile CONFIG_NAGIOS_INSTALL n
     modify_answerfile CONFIG_CEILOMETER_INSTALL n
     modify_answerfile CONFIG_HEAT_INSTALL y
+
+    modify_answerfile CONFIG_KEYSTONE_REGION $KEYSTONE_REGION
 
     if [ -n $COMPUTE_HOSTS ]; then
         modify_answerfile CONFIG_COMPUTE_HOSTS $COMPUTE_HOSTS
