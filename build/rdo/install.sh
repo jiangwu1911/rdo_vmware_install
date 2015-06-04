@@ -33,7 +33,8 @@ function add_hostname() {
     localip=`ifconfig | grep -v 127.0.0.1 | grep inet | grep -v inet6 | awk '{print $2}' | sed 's/addr://'`
     hostname=`hostname`
     sed -i "/.* $hostname/d" /etc/hosts
-    echo "$localip $hostname" >> /etc/hosts
+    hostname_without_domain=`echo $hostname | awk -F'.' '{print $1}'`
+    echo "$localip $hostname $hostname_without_domain" >> /etc/hosts
 }
 
 function pre_install() {
