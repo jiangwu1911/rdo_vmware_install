@@ -9,7 +9,7 @@ function regist_new_region() {
     export OS_TENANT_NAME=admin
     export OS_PASSWORD=admin
     export OS_AUTH_URL=http://192.168.206.151:5000/v2.0/
-    export OS_REGION_NAME=RegionOne
+    export OS_REGION_NAME=region01
     export PS1='[\u@\h \W(keystone_admin)]\$ '
 
     keystone_service_id=`keystone service-get keystone 2>/dev/null| awk '/ id / { print $4 }'` 
@@ -75,6 +75,9 @@ function modify_config_file() {
     openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken auth_uri http://${KEYSTONE_SERVER_IP}:5000/
     openstack-config --set /etc/glance/glance-api.conf keystone_authtoken identity_uri http://${KEYSTONE_SERVER_IP}:35357/
     openstack-config --set /etc/glance/glance-api.conf keystone_authtoken auth_uri http://${KEYSTONE_SERVER_IP}:5000/
+
+    openstack-config --set /etc/heat/heat.conf keystone_authtoken auth_host ${KEYSTONE_SERVER_IP}
+    openstack-config --set /etc/heat/heat.conf keystone_authtoken auth_uri http://${KEYSTONE_SERVER_IP}:5000/
 }
 
 regist_new_region
