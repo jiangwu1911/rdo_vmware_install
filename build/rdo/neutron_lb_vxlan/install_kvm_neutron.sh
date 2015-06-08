@@ -9,6 +9,7 @@ DNS_SERVER="192.168.206.2"
 
 COMPUTE_HOSTS="192.168.206.139"
 FLOATING_RANGE="192.168.206.224/28"
+INTERFACE=eno16777736
 
 dt=`date '+%Y%m%d-%H%M%S'`
 logfile="install_$dt.log"
@@ -50,8 +51,10 @@ function install_openstack() {
     modify_answerfile CONFIG_PROVISION_DEMO n
     modify_answerfile CONFIG_KEYSTONE_ADMIN_PW $ADMIN_PASSWORD
 
-    modify_answerfile CONFIG_NEUTRON_ML2_MECHANISM_DRIVERS linuxbridge
+    modify_answerfile CONFIG_NEUTRON_ML2_MECHANISM_DRIVERS linuxbridge,l2population
     modify_answerfile CONFIG_NEUTRON_L2_AGENT linuxbridge
+    modify_answerfile CONFIG_NEUTRON_L3_EXT_BRIDGE ""
+    modify_answerfile CONFIG_NEUTRON_LB_INTERFACE_MAPPINGS external:$INTERFACE
 
     packstack --answer-file=$answerfile
 
@@ -94,8 +97,7 @@ function post_install() {
 
     # neutron
     openstack-config --set /etc/neutron/plugin.ini ml2 type_drivers "flat,vxlan"
-    systemctl restart openvswitch
-    systemctl restart neutron-openvswitch-agent
+    systemctl restart neutron-linuxbridge-agent
     systemctl restart neutron-server
 }
 
