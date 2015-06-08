@@ -58,24 +58,14 @@ function config_network() {
     done
 
     sed -i "/^BOOTPROTO=.*/d" /etc/sysconfig/network-scripts/ifcfg-$default_interface
-
-    cat > /etc/sysconfig/network-scripts/ifcfg-br-ex <<EOF
-DEVICE=br-ex
-TYPE=Bridge
+    cat > /etc/sysconfig/network-scripts/ifcfg-$default_interface <<EOF
 BOOTPROTO=static
 IPADDR=$IPADDR
 NETMASK=$NETMASK
 GATEWAY=$GATEWAY
-DNS1=$GATEWAY
-ONBOOT=yes
-EOF
-
-    cat > /etc/sysconfig/network-scripts/ifcfg-$default_interface <<EOF
 DEVICE="$default_interface" 
-BRIDGE=br-ex
 ONBOOT=yes
 EOF
-
     cat >> /etc/sysconfig/network <<EOF
 DNS1=8.8.8.8
 EOF
