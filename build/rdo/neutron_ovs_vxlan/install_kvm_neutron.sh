@@ -42,6 +42,10 @@ function install_openstack() {
         cp -n $answerfile ${answerfile}.bak
     fi
 
+    if [ -n $COMPUTE_HOSTS ]; then
+        modify_answerfile CONFIG_COMPUTE_HOSTS $COMPUTE_HOSTS
+    fi
+
     modify_answerfile CONFIG_NEUTRON_INSTALL y
     modify_answerfile CONFIG_SWIFT_INSTALL n
     modify_answerfile CONFIG_NAGIOS_INSTALL n
