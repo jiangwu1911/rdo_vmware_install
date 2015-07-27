@@ -18,10 +18,11 @@ FLOAT_IP_RANGE="192.168.206.224/28"
 ADMIN_PASSWORD="admin"
 DNS_SERVER="8.8.8.8"
 
-USE_VLAN="yes"
+USE_VLAN="no"
 VLAN_START=101
 VLAN_NUM=10
 VMWARE_VLAN_INTERFACE=vmnic0
+USE_PROVIDER_NETWORK="no"
 
 COMPUTE_HOSTS="192.168.206.146"
 KEYSTONE_REGION="region01"
@@ -185,7 +186,12 @@ function post_install() {
 
 function apply_patches() {
     yum install -y patch
-    patch -p1 /usr/lib/python2.7/site-packages/nova/network/linux_net.py < ~/rdo/patches/linux_net_br100_promisc.patch
+
+    if [ "$USE_PROVIDER_NETWORK" -eq "yes" ]; then
+        patch -p1 /usr/lib/python2.7/site-packages/nova/network/linux_net.py < ~/rdo/patches/linux_net_br100_promisc_provider.patch
+    else 
+        patch -p1 /usr/lib/python2.7/site-packages/nova/network/linux_net.py < ~/rdo/patches/linux_net_br100_promisc.patch
+    fi
     pkill -9 dnsmasq
     systemctl restart openstack-nova-network
 

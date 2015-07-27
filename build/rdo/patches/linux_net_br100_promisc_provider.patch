@@ -1,0 +1,23 @@
+--- linux_net.py	2015-06-11 23:23:44.407012782 +0800
++++ linux_net.py.new	2015-06-11 23:24:05.175013034 +0800
+@@ -1011,9 +1011,9 @@
+     # NOTE(vish): if we are in multi-host mode and we are not sharing
+     #             addresses, then we actually need to hand out the
+     #             dhcp server address as the gateway.
+-    if network_ref['multi_host'] and not (network_ref['share_address'] or
+-                                          CONF.share_dhcp_address):
+-        gateway = network_ref['dhcp_server']
++    #if network_ref['multi_host'] and not (network_ref['share_address'] or
++    #                                      CONF.share_dhcp_address):
++    #    gateway = network_ref['dhcp_server']
+     hosts = []
+     if CONF.use_single_default_gateway:
+         for fixedip in fixedips:
+@@ -1608,6 +1608,7 @@
+             # bridge, which will either be the vlan interface, or a
+             # physical NIC.
+             _execute('ip', 'link', 'set', bridge, 'up', run_as_root=True)
++            _execute('ip', 'link', 'set', bridge, 'promisc', 'on', run_as_root=True)
+ 
+         if interface:
+             LOG.debug('Adding interface %(interface)s to bridge %(bridge)s',
