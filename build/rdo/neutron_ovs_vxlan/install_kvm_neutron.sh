@@ -94,7 +94,7 @@ function post_install() {
     systemctl restart openstack-glance-registry
 
     # neutron
-    openstack-config --set /etc/neutron/plugin.ini ml2 type_drivers "flat,vxlan"
+    openstack-config --set /etc/neutron/plugin.ini ml2 type_drivers "flat,vlan,vxlan"
     systemctl restart openvswitch
     systemctl restart neutron-openvswitch-agent
     systemctl restart neutron-server
