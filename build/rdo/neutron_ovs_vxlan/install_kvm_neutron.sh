@@ -103,8 +103,8 @@ function post_install() {
 function apply_patches() {
     yum install -y patch
 
-    patch -p1 /usr/lib/python2.7/site-packages/nova/scheduler/filters/aggregate_multitenancy_isolation.py < ~/rdo/patches/scheduler_filter_aggregate.patch
-    systemctl restart openstack-nova-scheduler
+    #patch -p1 /usr/lib/python2.7/site-packages/nova/scheduler/filters/aggregate_multitenancy_isolation.py < ~/rdo/patches/scheduler_filter_aggregate.patch
+    #systemctl restart openstack-nova-scheduler
 }
 
 function import_image() {
